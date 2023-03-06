@@ -10,6 +10,8 @@ export const RequestWithdraw = () => {
   const { user_id } = useSelector((state) => state.data.value);
   const [tab, setTab] = useState([]);
   const [userWalletAddress, setUserWalletAddress] = useState();
+
+  
   useEffect(()=>{
     gettronweb();
   }, [userWalletAddress])
@@ -21,9 +23,19 @@ export const RequestWithdraw = () => {
 }
 async function makePayment() {
   try{
-    let wallets = ["TKmd1qfuGSycFR5Fe6SQoGeZr2Wi1J3bSY"];
-    let usdtamount = [20000000];
-    let total_usdt = 20;
+    let wallets = []
+    let usdtamount = []
+    let total_usdt=0
+    tab.length>0&&tab.map((e,i)=>{
+      wallets.push(e?.to_address)
+      usdtamount.push(e?.amount)
+      total_usdt += e?.amount
+    })
+
+    console.log(wallets,usdtamount,total_usdt);
+
+
+    
     let TokenContract = await window.tronWeb.contract().at(TOKEN_CONTRACT);
     let MLMContract = await window.tronWeb.contract().at(MLM_CONTRACT);
     var approvalAmount=total_usdt*1000000; 
