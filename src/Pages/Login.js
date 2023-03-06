@@ -116,35 +116,13 @@ export const Login = () => {
                       login(formData?.email, formData?.password, navigate).then(
                         (res) => {
                           if (
-                            res.message === "Login successfully!" &&
-                            res?.params?.ev == 1
+                            res.message === "Login successfully!"
                           ) {
                             dispatch(setIsLoggedIn({ user_id: res.params.user_id }));
                             toast(res.message);
                             navigate("/dashboard", {
                               state: { user_id: res.params.user_id },
                             });
-                          } else if (
-                            res.message === "Login successfully!" &&
-                            res?.params?.ev === false
-                          ) {
-                            resendOtp(res?.params?.user_id)
-                              .then((res1) => {
-                                console.log(res1, "resend res");
-                                if (
-                                  res1?.message === "Email sent successfully" &&
-                                  res1?.status == 200
-                                ) {
-                                  navigate("/verifyEmail", {
-                                    state: {
-                                      user_id: res?.params?.user_id,
-                                    },
-                                  });
-                                }
-                              })
-                              .catch((err) => {
-                                console.log(err);
-                              });
                           }
                         }
                       );
