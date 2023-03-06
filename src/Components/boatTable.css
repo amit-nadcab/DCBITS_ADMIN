@@ -1,0 +1,8 @@
+.bot-table-thead{
+    background-color: #F4F5F9 !important;
+    border: 1px solid white;
+    border-radius: 12px;
+    text-align: center;
+    position: sticky;
+    top: -17px;
+}
