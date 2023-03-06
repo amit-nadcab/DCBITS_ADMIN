@@ -25,7 +25,7 @@ export const verifyEmail = async (otp, user_id) => {
 };
 export const login = async (email, password, navigate) => {
   try {
-    const data = await axios.post(`${BASE_URL}/login`, {
+    const data = await axios.post(`${BASE_URL}/admin/login`, {
       email: email,
       password: password,
     });
