@@ -71,6 +71,11 @@ export const Header = () => {
                     </Link>
                   </li>
                   <li className="nav-item px-5">
+                    <Link className="nav-link" to="/requestWithdraw">
+                      Request Withdraw
+                    </Link>
+                  </li>
+                  <li className="nav-item px-5">
                     <Link className="nav-link" to="/withdrawHistory">
                       Withdraw Histroy
                     </Link>

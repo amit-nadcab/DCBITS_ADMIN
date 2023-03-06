@@ -41,6 +41,7 @@ export const Sidebar = () => {
           <li><Link to="/dashboard"> <b className='text-primary'> Dashboard </b></Link></li>
           {/* <li><Link to="/reinvestment"><b className='text-white'>Reinvestment</b> </Link></li> */}
           <li><Link to="/investHistory"><b className='text-primary'>User</b> </Link></li>
+          <li><Link to="/requestWithdraw"><b className='text-primary'>Request Withdraw</b></Link></li>
           <li><Link to="/withdrawHistory"><b className='text-primary'>Withdraw History</b></Link></li>
           {/* <li><Link href=""><b></b></Link></li> */}
           <li><Link href=""><b className='text-primary'>Referral Income</b></Link></li>

@@ -9,6 +9,7 @@ import { VerifyEmail } from "./Pages/VerifyEmail";
 import { Dashboard } from "./Pages/Dashboard";
 import { InvestHistory } from "./Pages/InvestHistory";
 import { WithdrawHistory } from "./Pages/WithdrawHistory";
+import { RequestWithdraw } from "./Pages/RequestWithdraw";
 import {ReferralIncome} from './Pages/ReferralIncome'
 import {RoiHistory} from './Pages/RoiHistory'
 
@@ -27,6 +28,7 @@ function App() {
         <Route path="/home" element={<Home />} />
         {/* <Route path="/reinvestment" element={isLoggedIn ? <Reinvestment /> : <Navigate to='/home' />} /> */}
         <Route path="/withdrawHistory" element={isLoggedIn ? <WithdrawHistory /> : <Navigate to='/home' />} />
+        <Route path="/requestWithdraw" element={isLoggedIn ? <RequestWithdraw /> : <Navigate to='/home' />} />
         <Route path="/investHistory" element={isLoggedIn ?  <InvestHistory />: <Navigate to='/home' /> } />
         <Route path="/roiHistory" element={isLoggedIn ?  <RoiHistory />: <Navigate to='/home' /> } />
         <Route path="/referralIncome" element={isLoggedIn ?  <ReferralIncome />: <Navigate to='/home' /> } />
