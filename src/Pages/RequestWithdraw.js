@@ -1,7 +1,9 @@
+import userEvent from "@testing-library/user-event";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { Footer } from "../Components/Footer";
 import { Sidebar } from "../Components/Sidebar";
+import { adminPendingWithdrwa } from "../utils/apiFunction";
 export const RequestWithdraw = () => {
   const TOKEN_CONTRACT = "TBKdxmngduHGMVvxkrM39fWFq3xgDzfqqe";
   const MLM_CONTRACT = "TPUiP6gPWrdLz13bj3PRpzKZR7ZDwPBg8F";
@@ -43,6 +45,12 @@ async function makePayment() {
     console.log("error", error);
   }
 }
+
+useEffect(()=>{
+  adminPendingWithdrwa(user_id).then((res)=>{
+    setTab(res?.history)
+  })
+},[user_id])
  
 
   return (
