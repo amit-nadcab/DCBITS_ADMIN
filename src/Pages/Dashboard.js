@@ -262,7 +262,7 @@ export const Dashboard = () => {
             <div className="row mx-1">
               {/* <div className="col-md-12 col-12"> */}
                 <div className="row align-items-center justify-content-center py-4 mt-5 dummy-data">
-                  <div className="col-md-4 col-lg-2 col-6 text-center card-mob">
+                  <div className="col-md-2 col-6 text-center card-mob">
                     <span className="d-flex align-items-center justify-content-center">
                       <div className="stat-card-dot-g"></div>{" "}
                       <p className="ms-1"> Total Earning</p>
@@ -280,7 +280,7 @@ export const Dashboard = () => {
                       USDT
                     </b>
                   </div>
-                  <div className="col-md-4 col-lg-2 col-6 border-start text-center card-mob">
+                  <div className="col-md-2 col-6 border-start text-center card-mob">
                     <span className="d-flex align-items-center justify-content-center">
                       <div className="stat-card-dot-b"></div>{" "}
                       <p className="ms-1"> Total Investment</p>
@@ -289,7 +289,7 @@ export const Dashboard = () => {
                       {totalInvest ? roundTo(totalInvest, 4) : 0} USDT
                     </b>
                   </div>
-                  <div className="col-md-4 col-lg-2 col-6 border-start text-center card-mob">
+                  <div className="col-md-2 col-6 border-start text-center card-mob">
                     <span className="d-flex align-items-center justify-content-center">
                       <div className="stat-card-dot-r"></div>{" "}
                       <p className="ms-1"> Total ROI Income</p>
@@ -301,7 +301,7 @@ export const Dashboard = () => {
                       USDT
                     </b>
                   </div>
-                  <div className="col-md-4 col-lg-2 col-6 border-start text-center card-mob">
+                  <div className="col-md-2 col-6 border-start text-center card-mob">
                     <span className="d-flex align-items-center justify-content-center">
                       <div className="stat-card-dot-o"></div>{" "}
                       <p className="ms-1"> Total Direct Members</p>
@@ -310,7 +310,7 @@ export const Dashboard = () => {
                       {userStats?.directs ? userStats?.directs : 0}
                     </b>
                   </div>
-                  <div className="col-md-4 col-lg-2 col-6 border-start text-center card-mob">
+                  <div className="col-md-2 col-12 border-start text-center card-mob">
                     <span className="d-flex align-items-center justify-content-center">
                       <div className="stat-card-dot-p"></div>{" "}
                       <p className="ms-1"> Total Level Income</p>
