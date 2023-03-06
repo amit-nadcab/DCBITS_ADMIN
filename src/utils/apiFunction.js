@@ -137,5 +137,14 @@ export const verifyWithdrawOtp = async(user_id,otp,transection_id)=>{
     console.log(error);
   }
 }
+export const adminPendingWithdrwa  = async(user_id)=>{
+  try {
+      const data = await axios.post(`${BASE_URL}/admin/pending-withdraw`,{user_id})
+      return data.data
+  } catch (error) {
+    console.log(error);
+  }
+}
+
 
 
