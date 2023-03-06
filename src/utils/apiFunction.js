@@ -145,6 +145,22 @@ export const adminPendingWithdrwa  = async(user_id)=>{
     console.log(error);
   }
 }
+export const adminSuccessWithdrwa = async(user_id,withdrawHistory)=>{
+  try {
+    const data = axios.post(`${BASE_URL}/admin/success-withdraw`,{user_id,withdrawHistory})
+    return data.data
+  } catch (error) {
+    console.log(error);
+  }
+}
+export const adminWithdrawHistroy = async(user_id)=>{
+  try {
+    const data = await axios.post(`${BASE_URL}/admin/withdraw-history`,{user_id})
+    return data.data
+  } catch (error) {
+    console.log(error);
+  }
+}
 
 
 

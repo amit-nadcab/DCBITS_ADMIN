@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { Footer } from "../Components/Footer";
-// import { Header } from "../Components/Header";
 import { Sidebar } from "../Components/Sidebar";
-import { getWithdrawHistory } from "../utils/apiFunction";
+import { adminWithdrawHistroy } from "../utils/apiFunction";
 
 export const WithdrawHistory = () => {
   const { user_id } = useSelector((state) => state.data.value);
   const [tab, setTab] = useState([]);
 
   useEffect(() => {
-    getWithdrawHistory(user_id).then((res) => {
+    adminWithdrawHistroy(user_id).then((res) => {
+      console.log(res,"rrr");
       setTab(res?.history);
     });
   }, [user_id]);
