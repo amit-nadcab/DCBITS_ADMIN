@@ -16,6 +16,7 @@ import { ActiveUsers } from "./Pages/ActiveUsers";
 import { InactiveUser } from "./Pages/InactiveUser";
 import { ColdWallet } from "./Pages/ColdWallet";
 import { HotWallet } from "./Pages/HotWallet";
+import { InvestHistoryAdmin } from "./Pages/InvestHistoryAdmin";
 
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -38,6 +39,7 @@ function App() {
         <Route path="/inActiveUsers" element={isLoggedIn ?  <InactiveUser />: <Navigate to='/home' /> } />
         <Route path="/coldWallet" element={isLoggedIn ?  <ColdWallet />: <Navigate to='/home' /> } />
         <Route path="/hotWallet" element={isLoggedIn ?  <HotWallet />: <Navigate to='/home' /> } />
+        <Route path="/investmentHistory" element={isLoggedIn ?  <InvestHistoryAdmin />: <Navigate to='/home' /> } />
         <Route path="/roiHistory" element={isLoggedIn ?  <RoiHistory />: <Navigate to='/home' /> } />
         <Route path="/referralIncome" element={isLoggedIn ?  <ReferralIncome />: <Navigate to='/home' /> } />
 

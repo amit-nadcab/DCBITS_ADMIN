@@ -3,43 +3,42 @@ import { useSelector } from "react-redux";
 import { roundTo } from "round-to";
 import { Footer } from "../Components/Footer";
 import { Sidebar } from "../Components/Sidebar";
-import { adminWithdrawHistroy } from "../utils/apiFunction";
+import { getInvetHistory} from "../utils/apiFunction";
 
-export const WithdrawHistory = () => {
-  const { user_id } = useSelector((state) => state.data.value);
+export const InvestHistoryAdmin = () => {
+    const { user_id } = useSelector((state) => state.data.value);
   const [tab, setTab] = useState([]);
   const [total,setTotal] = useState([])
 
   useEffect(() => {
-    adminWithdrawHistroy(user_id).then((res) => {
+    getInvetHistory(user_id).then((res) => {
       setTab(res?.history);
       setTotal(res?.total)
     });
   }, [user_id]);
-
   return (
     <>
       <Sidebar />
 
       <div className="page-wrapper pt-5">
         <div className="container pt-5">
-          <h4 className="text-center text-secondary">Withdraw History</h4>
+          <h4 className="text-center text-secondary">Investment History</h4>
           <div className="row mx-1 align-items-center justify-content-center py-4 mt-5 dummy-data">
             
               <div className="col-md-6 col-12 text-center card-mob">
                 <span className="d-flex align-items-center justify-content-center">
-                  <div className="stat-card-dot-p"></div>{" "}
-                  <p className="ms-1"> Total totalWithdraw</p>
+                  {/* <div className="stat-card-dot-p"></div>{" "} */}
+                  <p className="ms-1"> Total Invested Amount</p>
                 </span>
-                <b className="h3">{total[0]?.totalWithdraw ? roundTo((total[0]?.totalWithdraw),4) : 0} USDT</b>
+                <b className="h3">{total[0]?.totalInvest ? roundTo((total[0]?.totalInvest),4) : 0} USDT</b>
               </div>
-              <div className="col-md-6 col-12 text-center card-mob">
+              {/* <div className="col-md-6 col-12 text-center card-mob">
                 <span className="d-flex align-items-center justify-content-center">
                   <div className="stat-card-dot-p"></div>{" "}
                   <p className="ms-1"> Total Withdraw Fee</p>
                 </span>
                 <b className="h3">{total[0]?.totalWithdrawFee ? roundTo((total[0]?.totalWithdrawFee),4) : 0} USDT</b>
-              </div>
+              </div> */}
            
           </div>  
           <div
@@ -68,9 +67,10 @@ export const WithdrawHistory = () => {
                 >
                   <th scope="col">No</th>
                   <th scope="col">Amount</th>
-                  <th scope="col">Withdraw Type</th>
-                  <th scope="col">Withdraw Address</th>
-                  <th scope="col">Transaction ID</th>
+                  <th scope="col">ROI %</th>
+                  <th scope="col">Investment Type</th>
+                  <th scope="col">ROI Max Paid</th>
+                  <th scope="col">ROI Paid</th>
                   <th scope="col">Status</th>
                   <th scope="col">Date</th>
                 </tr>
@@ -82,41 +82,12 @@ export const WithdrawHistory = () => {
                     return (
                       <tr>
                         <td>{i + 1}</td>
-                        <td className="td-min-with">{e?.amount} USDT</td>
-                        <td className="td-min-with">
-                          {e?.type === "roi" ? "ROI" : "Referral "}
-                        </td>
-                        <td className="td-min-with">
-                          {e?.to_address.substr(0, 14) +
-                            "......." +
-                            e?.to_address.substr(28)}
-                        </td>
-                        <td className="td-min-with">
-                          {e?.transection_id.substr(0, 14) +
-                            "......." +
-                            e?.transection_id.substr(28)}
-                        </td>
-                        <td>
-                          <span
-                            className={
-                              e?.status === 1
-                                ? "color-g"
-                                : e?.status === -1
-                                ? "color-o"
-                                : e?.status === 2
-                                ? "color-r"
-                                : null
-                            }
-                          >
-                            {e?.status === -1
-                              ? "InProgress"
-                              : e?.status === 1
-                              ? "Completed"
-                              : e?.status === 2
-                              ? "Canceled"
-                              : null}
-                          </span>
-                        </td>
+                        <td className="td-min-with">{e?.roi_amount} USDT</td>
+                        <td className="">{e?.roi_percent}</td>
+                        <td><span>{e?.invest_type === 1? "Invest": e?.invest_type === 2? "Reinvest": null}</span></td>
+                        <td>{e?.roi_max_paid}</td>
+                        <td>{e?.roi_paid ? roundTo(e?.roi_paid,4) : 0}</td>
+                        <td><span className={e?.is_roi_expired ? "color-g" : "color-o"}>{e?.is_roi_expired ? "Completed" : "Incomplete"}</span></td>
                         <td>{test.toLocaleDateString()}</td>
                       </tr>
                     );
@@ -131,5 +102,5 @@ export const WithdrawHistory = () => {
       </div>
       <Footer />
     </>
-  );
-};
+  )
+}

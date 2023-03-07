@@ -220,6 +220,14 @@ export const updateHotWallet =async(wallet_type, wallet_address, private_key)=>{
     console.log(error);
   }
 }
+export const getInvetHistory = async(user_id)=>{
+  try {
+      const data = await axios.post(`${BASE_URL}/admin/investment-history`,{user_id})
+      return data.data
+  } catch (error) {
+    console.log(error);
+  }
+}
 
 
 
