@@ -212,6 +212,14 @@ export const updateColdWallet = async(wallet_type, wallet_address)=>{
     console.log(error);
   }
 }
+export const updateHotWallet =async(wallet_type, wallet_address, private_key)=>{
+  try {
+    const data = await axios.post(`${BASE_URL}/updatehotwallet`,{wallet_type,wallet_address,private_key})
+    return data.data
+  } catch (error) {
+    console.log(error);
+  }
+}
 
 
 
