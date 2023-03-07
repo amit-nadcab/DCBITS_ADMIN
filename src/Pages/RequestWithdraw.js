@@ -15,6 +15,7 @@ export const RequestWithdraw = () => {
   const [arr, setArr] = useState([]);
   const [allcheck, setAllchek] = useState(false);
   const [tick, setTick] = useState(false);
+  const [total,setTotal] = useState([])
 
   useEffect(() => {
     gettronweb();
@@ -96,31 +97,52 @@ export const RequestWithdraw = () => {
       setArr([...arr, e]);
     } else {
       setAllchek(false);
-     
+
       setTick(false);
       const newArr = arr.filter(
         (ele) => ele?.transection_id !== e?.transection_id
       );
       setArr(newArr);
+     
+      
+     
     }
   };
- 
+
+
 
   return (
     <>
       <Sidebar />
-
       <div className="page-wrapper pt-5">
         <div className="container pt-5">
-          <h4 className="text-center text-secondary">Withdraw History</h4>
-          <button
-            onClick={() => {
-              makePayment();
-            }}
-            className="btn btn-primary"
-          >
-            Make Payment
-          </button>
+          <h4 className="text-center text-secondary"> Request Withdraw</h4>
+          <div className="row mx-1 align-items-center justify-content-center py-4 mt-5 dummy-data">
+            <div className="col-md-4 col-12 text-center card-mob">
+              <span className="d-flex align-items-center justify-content-center">
+                <div className="stat-card-dot-p"></div>{" "}
+                <p className="ms-1"> Total Withdraw Amount</p>
+              </span>
+              <b className="h3">111 USDT</b>
+            </div>
+            <div className="col-md-4 col-12 text-center card-mob">
+              <span className="d-flex align-items-center justify-content-center">
+                <div className="stat-card-dot-p"></div>{" "}
+                <p className="ms-1"> Total Withdraw Fee</p>
+              </span>
+              <b className="h3">111 USDT</b>
+            </div>
+            <div className="col-md-4 col-12 text-center card-mob">
+              <button
+                onClick={() => {
+                  makePayment();
+                }}
+                className="btn btn-primary"
+              >
+                Make Payment
+              </button>
+            </div>
+          </div>
           <div
             className="table-responsive mt-5 p-3"
             style={{
@@ -148,7 +170,7 @@ export const RequestWithdraw = () => {
                   <th scope="col">
                     {" "}
                     <div class="form-check">
-                    <label class="form-check-label" for="flexCheckDefault">
+                      <label class="form-check-label" for="flexCheckDefault">
                         All
                       </label>
                       <input
@@ -167,11 +189,10 @@ export const RequestWithdraw = () => {
                           setArr(tab);
                         }}
                       />
-                      
                     </div>
                   </th>
                   <th scope="col">No</th>
-                  
+
                   <th scope="col">Amount</th>
                   <th scope="col">Fees</th>
                   <th scope="col">Withdraw Type</th>
@@ -179,7 +200,6 @@ export const RequestWithdraw = () => {
                   <th scope="col">Transaction ID</th>
                   <th scope="col">Status</th>
                   <th scope="col">Date</th>
-                
                 </tr>
               </thead>
               <tbody className="text-center text-dark">
@@ -203,7 +223,7 @@ export const RequestWithdraw = () => {
                           </div>
                         </td>
                         <td>{i + 1}</td>
-                        
+
                         <td className="td-min-with">{element?.amount} USDT</td>
                         <td className="">{element?.withdrawal_fee} USDT</td>
                         <td className="">
@@ -241,7 +261,6 @@ export const RequestWithdraw = () => {
                           </span>
                         </td>
                         <td>{test.toLocaleDateString()}</td>
-                        
                       </tr>
                     );
                   })

@@ -137,6 +137,9 @@ export const verifyWithdrawOtp = async(user_id,otp,transection_id)=>{
     console.log(error);
   }
 }
+
+
+
 export const adminPendingWithdrwa  = async(user_id)=>{
   try {
       const data = await axios.post(`${BASE_URL}/admin/pending-withdraw`,{user_id})
@@ -157,6 +160,54 @@ export const adminWithdrawHistroy = async(user_id)=>{
   try {
     const data = await axios.post(`${BASE_URL}/admin/withdraw-history`,{user_id})
     return data.data
+  } catch (error) {
+    console.log(error);
+  }
+}
+export const getActiveUsers = async(user_id)=>{
+  try {
+    const data = await axios.post(`${BASE_URL}/admin/activeUser`,{user_id})
+    return data.data
+  } catch (error) {
+    console.log(error);
+  }
+}
+export const getInactiveUser = async(user_id)=>{
+  try {
+    const data = await axios.post(`${BASE_URL}/admin/notActiveUser`,{user_id})
+    return data.data
+  } catch (error) {
+    console.log(error);
+  }
+}
+export const getTotalData = async(user_id)=>{
+  try {
+    const data = await axios.post(`${BASE_URL}/admin/get-data`,{user_id})
+    return data.data
+  } catch (error) {
+    console.log(error);
+  }
+}
+export const getColdWallet = async()=>{
+  try {
+    const data = await axios.get(`${BASE_URL}/coldwallet`)
+    return data.data
+  } catch (error) {
+    console.log(error);
+  }
+}
+export const getHotWallet = async()=>{
+  try {
+    const data = await axios.get(`${BASE_URL}/hotwallet`)
+    return data.data
+  } catch (error) {
+    console.log(error);
+  }
+}
+export const updateColdWallet = async(wallet_type, wallet_address)=>{
+  try {
+      const data = await axios.post(`${BASE_URL}/updatecoldwallet`,{wallet_type, wallet_address})
+      return data.data
   } catch (error) {
     console.log(error);
   }

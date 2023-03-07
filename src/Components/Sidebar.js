@@ -39,10 +39,12 @@ export const Sidebar = () => {
         <ul className='mt-3'>
           <li><Link to="/home"> <b className='text-primary'> Home </b></Link></li>
           <li><Link to="/dashboard"> <b className='text-primary'> Dashboard </b></Link></li>
-          <li><Link to="/investHistory"><b className='text-primary'>User</b> </Link></li>
+          <li><Link to="/hotWallet"> <b className='text-primary'>Hot Wallet</b></Link></li>
+          <li><Link to="/coldWallet"> <b className='text-primary'>Cold Wallet</b></Link></li>
+          <li><Link to="/activeUsers"><b className='text-primary'>Active Users</b> </Link></li>
+          <li><Link to="/inActiveUsers"><b className='text-primary'>Inactive Users</b> </Link></li>
           <li><Link to="/requestWithdraw"><b className='text-primary'>Request Withdraw</b></Link></li>
           <li><Link to="/withdrawHistory"><b className='text-primary'>Withdraw History</b></Link></li>
-          <li><Link href=""><b className='text-primary'>Referral Income</b></Link></li>
           <hr style={{ color: "gray" }} />
           <li> <Link className='' to="" onClick={() => handleLogout()}><b className='text-primary'> Logout</b></Link></li>
         </ul>

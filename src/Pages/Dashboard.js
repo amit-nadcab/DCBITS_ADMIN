@@ -24,12 +24,16 @@ import {
   updateWallet,
   checkUserStatus,
   withdraw,
-  verifyWithdrawOtp
+  verifyWithdrawOtp,
+  getTotalData
 } from "../utils/apiFunction";
 import { BASE_URL_1, BASE_URL_2 } from "../utils/config";
 
 export const Dashboard = () => {
   const { user_id } = useSelector((state) => state.data.value);
+  const [total, setToal] = useState({})
+
+
   const [walletAddress, setWalletAddress] = useState([]);
   const [copiedUSDT, setCopiedUSDT] = useState(false);
   const [copiedDCBT, setCopiedDCBT] = useState(false);
@@ -58,12 +62,15 @@ export const Dashboard = () => {
       setWalletAddress(res?.wallets);
     });
     updateWallet(user_id).then((res) => {
-      // console.log(res, "update wallet address");
     });
     checkUserStatus(user_id).then((res) => {
       setUserStats(res?.user_data);
       setTotalInvest(res?.total);
     });
+    getTotalData(user_id).then((res)=>{
+      setToal(res)
+      console.log(res,"get Dashboard Data");
+    })
   }, [user_id]);
 
   setTimeout(() => {
@@ -142,9 +149,7 @@ export const Dashboard = () => {
 
   return (
     <>
-      {/* <Navbar /> */}
       <Sidebar />
-      {/* <Header /> */}
 
       <div className="page-wrapper pt-5">
         {/* {window.innerWidth < 768 ? (
@@ -178,81 +183,39 @@ export const Dashboard = () => {
                   }}
                 >
                   <div className="col-md-12 col-12">
-                    <div
-                      className="row mb-4  align-items-center justify-content-between py-4 mt-5 dummy-data"
-                      style={{ background: "rgba(255, 255, 255, 0.2)" }}
-                    >
+                    <div className="row mb-4  align-items-center justify-content-between py-4 mt-5 dummy-data"
+                      style={{ background: "rgba(255, 255, 255, 0.2)" }}>
                       <div className="col-6">
-                        <p className="mobile-stats-key">Total Earning</p>
+                        <p className="mobile-stats-key">Active Users</p>
+                        <p className="mobile-stats-key">Inactive Users</p>
                         <p className="mobile-stats-key">Total Investment</p>
-                        <p className="mobile-stats-key">Total ROI Income</p>
-                        <p className="mobile-stats-key">Total Direct Members</p>
-                        <p className="mobile-stats-key">Total Level Income</p>
+                        <p className="mobile-stats-key">Total Reinvestment</p>
+                        <p className="mobile-stats-key">Total Withdraw</p>
+                        <p className="mobile-stats-key">Total Fees</p>
                       </div>
                       <div className="col-6">
                         <p className="text-center mobile-stats-key">
-                          {userStats?.roi_income || userStats?.referral_income
-                            ? roundTo(
-                                Number(
-                                  userStats?.roi_income +
-                                    Number(userStats?.referral_income)
-                                ),
-                                4
-                              )
-                            : 0}{" "}
+                        {total?.activeUser ? total?.activeUser : 0}
+                        </p>
+                        <p className="text-center mobile-stats-key">
+                        {total?.notactiveUser ? total?.notactiveUser : 0}
+                        </p>
+                        <p className="text-center mobile-stats-key">
+                        {total?.investmentDetails ? roundTo((total?.investmentDetails[0]?.totalInvest),4) : 0}{" "}
                           USDT
                         </p>
                         <p className="text-center mobile-stats-key">
-                          {totalInvest ? roundTo(totalInvest, 4) : 0} USDT
+                        {total?.reInvestmentDetails ? roundTo((total?.reInvestmentDetails[0]?.totalReinvest),4) : 0} USDT
                         </p>
                         <p className="text-center mobile-stats-key">
-                          {userStats?.roi_income
-                            ? roundTo(userStats?.roi_income, 4)
-                            : 0}{" "}
+                        {total?.withdawDetails ? roundTo((total?.withdawDetails[0]?.totalWithdraw),4) : 0}{" "}
                           USDT
                         </p>
                         <p className="text-center mobile-stats-key">
-                          {userStats?.directs ? userStats?.directs : 0}
-                        </p>
-                        <p className="text-center mobile-stats-key">
-                          {userStats?.referral_income
-                            ? roundTo(userStats?.referral_income, 4)
-                            : 0}{" "}
+                        {total?.withdawDetails ? roundTo((total?.withdawDetails[0]?.totalWithdrawFee),4) : 0}{" "}
                           USDT
                         </p>
                       </div>
-                    </div>
-                  </div>
-                </div>
-                <div className="row px-3">
-                  <div className="mt-3 mb-3">
-                    <div className="create-wallet-1 d-flex flex-column align-items-start p-2 mt-2">
-                      <h6 className="text-white">
-                        Invite your friend and get{" "}
-                        <span className="text-warning"> $10</span>
-                      </h6>
-                      <p className="text-white">
-                        Effortlessly manage your finance with us
-                      </p>
-
-                      <CopyToClipboard
-                        text={`${BASE_URL_1}/signup?id=${userStats?.self_ref_code}`}
-                        onCopy={() => setCopiedRef(true)}
-                      >
-                        <span className="mx-1 small">
-                          <button className="btn btn-light mt-2">
-                            Copy Link
-                          </button>
-                          {copiedRef ? (
-                            <span
-                              className="small mx-1"
-                              style={{ color: "white" }}
-                            >
-                              Copied
-                            </span>
-                          ) : null}
-                        </span>
-                      </CopyToClipboard>
                     </div>
                   </div>
                 </div>
@@ -260,103 +223,66 @@ export const Dashboard = () => {
             ) : null
           ) : (
             <div className="row mx-1">
-              {/* <div className="col-md-12 col-12"> */}
+
                 <div className="row align-items-center justify-content-center py-4 mt-5 dummy-data">
-                  <div className="col-md-2 col-6 text-center card-mob">
+                  <div className="col-md-4 col-6 text-center card-mob mb-3">
                     <span className="d-flex align-items-center justify-content-center">
                       <div className="stat-card-dot-g"></div>{" "}
-                      <p className="ms-1"> Total Earning</p>
+                      <p className="ms-1"> Active Users</p>
                     </span>
-                    <b className="h3">
-                      {userStats?.roi_income || userStats?.referral_income
-                        ? roundTo(
-                            Number(
-                              userStats?.roi_income +
-                                Number(userStats?.referral_income)
-                            ),
-                            4
-                          )
-                        : 0}{" "}
-                      USDT
-                    </b>
+                    <b className="h3">{total?.activeUser ? total?.activeUser : 0}</b>
                   </div>
-                  <div className="col-md-2 col-6 border-start text-center card-mob">
+                  <div className="col-md-4 col-6  text-center card-mob mb-3">
                     <span className="d-flex align-items-center justify-content-center">
                       <div className="stat-card-dot-b"></div>{" "}
                       <p className="ms-1"> Total Investment</p>
                     </span>
                     <b className="h3">
-                      {totalInvest ? roundTo(totalInvest, 4) : 0} USDT
+                      {total?.investmentDetails ? roundTo((total?.investmentDetails[0]?.totalInvest),4) : 0} USDT
                     </b>
                   </div>
-                  <div className="col-md-2 col-6 border-start text-center card-mob">
-                    <span className="d-flex align-items-center justify-content-center">
-                      <div className="stat-card-dot-r"></div>{" "}
-                      <p className="ms-1"> Total ROI Income</p>
-                    </span>
-                    <b className="h3">
-                      {userStats?.roi_income
-                        ? roundTo(userStats?.roi_income, 4)
-                        : 0}{" "}
-                      USDT
-                    </b>
-                  </div>
-                  <div className="col-md-2 col-6 border-start text-center card-mob">
+                  <div className="col-md-4 col-6  text-center card-mob mb-3">
                     <span className="d-flex align-items-center justify-content-center">
                       <div className="stat-card-dot-o"></div>{" "}
-                      <p className="ms-1"> Total Direct Members</p>
+                      <p className="ms-1"> Total Withdraw</p>
                     </span>
                     <b className="h3">
-                      {userStats?.directs ? userStats?.directs : 0}
+                      {total?.withdawDetails ? roundTo((total?.withdawDetails[0]?.totalWithdraw),4) : 0}
                     </b>
                   </div>
-                  <div className="col-md-2 col-12 border-start text-center card-mob">
+                  <div className="col-md-4 col-6  text-center card-mob">
                     <span className="d-flex align-items-center justify-content-center">
                       <div className="stat-card-dot-p"></div>{" "}
-                      <p className="ms-1"> Total Level Income</p>
+                      <p className="ms-1">Inactive Users</p>
+                    </span>
+                    <b className="h3">{total?.notactiveUser ? total?.notactiveUser : 0}</b>
+                  </div>
+                  <div className="col-md-4 col-6  text-center card-mob mb-3">
+                    <span className="d-flex align-items-center justify-content-center">
+                      <div className="stat-card-dot-r"></div>{" "}
+                      <p className="ms-1"> Total Reinvestment</p>
                     </span>
                     <b className="h3">
-                      {userStats?.referral_income
-                        ? roundTo(userStats?.referral_income, 4)
-                        : 0}{" "}
-                      USDT
+                      {total?.reInvestmentDetails ? roundTo((total?.reInvestmentDetails[0]?.totalReinvest),4) : 0}
                     </b>
                   </div>
+                  <div className="col-md-4 col-6  text-center card-mob mb-3">
+                    <span className="d-flex align-items-center justify-content-center">
+                      <div className="stat-card-dot-p"></div>{" "}
+                      <p className="ms-1">Total Fees</p>
+                    </span>
+                    <b className="h3">
+                    {total?.withdawDetails ? roundTo((total?.withdawDetails[0]?.totalWithdrawFee),4) : 0}
+                    </b>
+                  </div>
+                
                 </div>
-              {/* </div> */}
             </div>
           )}
 
           <div className="row mt-4 mb-3">
-            {/* <div className="col-md-8 mt-3">
-              <div className="d-block-ai-assitent justify-content-between align-items-center ai-banner">
-                <div className="d-flex align-items-center ai-wrap">
-                  <div id="ai-assisent-img" className="me-4">
-                    <img src="assets/img/symbole.svg" alt="img" />
-                  </div>
-                  <div className="">
-                    <h4 className="">Hi, I am your AI assistent</h4>
-                    <h6 className="">
-                      Maximize your investment potential with our AI assistent.{" "}
-                      <a href="#">
-                        <u>Check Out</u>
-                      </a>
-                    </h6>
-                  </div>
-                </div>
-                <div className="roi-expexted text-center">
-                  <span className="">
-                    <p className="" style={{ color: "#3D9236" }}>
-                      {" "}
-                      Next ROI Income Expected on
-                    </p>
-
-                    <p className="text-dark">
-                      <b> 23 March 2023</b>
-                    </p>
-                  </span>
-                </div>
-              </div>
+             {/*<div className="col-md-8 mt-3">
+              
               {window.innerWidth < 768 ? (
                 mainBtn ? (
                   <div className="ai-banner mt-3 mb-3">
@@ -423,7 +349,7 @@ export const Dashboard = () => {
                             >
                               {withdrawType === 'roi' ? "ROI" : withdrawType === 'reffral' ? "Referral" : "Income Type"}
                             </Dropdown.Toggle>
-
+                              
                             <Dropdown.Menu>
                               <Dropdown.Item eventKey={"roi"}>
                                 ROI
@@ -1017,7 +943,7 @@ export const Dashboard = () => {
                 ) : null}
               </div>
             )} */}
-            <BoatTable/>
+            {/* <BoatTable/> */}
           </div>
         </div>
       </div>

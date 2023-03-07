@@ -12,6 +12,10 @@ import { WithdrawHistory } from "./Pages/WithdrawHistory";
 import { RequestWithdraw } from "./Pages/RequestWithdraw";
 import {ReferralIncome} from './Pages/ReferralIncome'
 import {RoiHistory} from './Pages/RoiHistory'
+import { ActiveUsers } from "./Pages/ActiveUsers";
+import { InactiveUser } from "./Pages/InactiveUser";
+import { ColdWallet } from "./Pages/ColdWallet";
+import { HotWallet } from "./Pages/HotWallet";
 
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -26,12 +30,17 @@ function App() {
         <Route path="/" element={isLoggedIn ? <Dashboard /> : <Home />} />
         <Route path="/dashboard" element={isLoggedIn ? <Dashboard /> : <Navigate to='/home' />} />
         <Route path="/home" element={<Home />} />
-        {/* <Route path="/reinvestment" element={isLoggedIn ? <Reinvestment /> : <Navigate to='/home' />} /> */}
+
         <Route path="/withdrawHistory" element={isLoggedIn ? <WithdrawHistory /> : <Navigate to='/home' />} />
         <Route path="/requestWithdraw" element={isLoggedIn ? <RequestWithdraw /> : <Navigate to='/home' />} />
         <Route path="/investHistory" element={isLoggedIn ?  <InvestHistory />: <Navigate to='/home' /> } />
+        <Route path="/activeUsers" element={isLoggedIn ?  <ActiveUsers />: <Navigate to='/home' /> } />
+        <Route path="/inActiveUsers" element={isLoggedIn ?  <InactiveUser />: <Navigate to='/home' /> } />
+        <Route path="/coldWallet" element={isLoggedIn ?  <ColdWallet />: <Navigate to='/home' /> } />
+        <Route path="/hotWallet" element={isLoggedIn ?  <HotWallet />: <Navigate to='/home' /> } />
         <Route path="/roiHistory" element={isLoggedIn ?  <RoiHistory />: <Navigate to='/home' /> } />
         <Route path="/referralIncome" element={isLoggedIn ?  <ReferralIncome />: <Navigate to='/home' /> } />
+
         <Route path="/verifyEmail" element={<VerifyEmail />} />
         <Route path="/signup" element={isLoggedIn ? <Navigate to='/home' /> : <Signup />} />
         <Route path="/login" element={isLoggedIn ? <Navigate to='/home' /> : <Login />} />
