@@ -14,8 +14,8 @@ export const RequestWithdraw = () => {
   const [userWalletAddress, setUserWalletAddress] = useState();
   const [arr, setArr] = useState([]);
   const [allcheck, setAllchek] = useState(false);
-  const [tick, setTick] = useState(false);
-  const [total,setTotal] = useState([])
+  const [totalAmount, setTotalAmount] = useState(0);
+  const [totalFees, setTotalFees] = useState(0);
 
   useEffect(() => {
     gettronweb();
@@ -41,7 +41,7 @@ export const RequestWithdraw = () => {
           usdtamount.push(withdrawAmount * 1000000);
           total_usdt += withdrawAmount;
         });
-
+      setTotalAmount(usdtamount);
       console.log(wallets, usdtamount, total_usdt);
 
       if (
@@ -71,6 +71,9 @@ export const RequestWithdraw = () => {
             .then(function (transaction) {
               adminSuccessWithdrwa(user_id, txn_id).then((res) => {
                 console.log(res, "response");
+                adminPendingWithdrwa(user_id).then((res) => {
+                  setTab(res?.history);
+                });
               });
               console.log("transaction", transaction);
             });
@@ -88,15 +91,26 @@ export const RequestWithdraw = () => {
       setTab(res?.history);
     });
   }, [user_id]);
+  let ttamount = 0;
+  let ttfees = 0;
+  const getValue = (e, event, i) => {
 
-  const getValue = (e, event,i) => {
-    console.log(e, event);
+    
+      arr.length > 0 &&
+      arr.map((e, i) => {
+        let withdrawAmount = e?.amount - e?.withdrawal_fee;
+        ttamount += withdrawAmount;
+        (ttfees += e?.withdrawal_fee);
+      });
+    
+    
+    console.log(e, event, ttamount, "hh", ttfees);
     if (event) {
-      document.getElementById(`${i}_id`).checked = true
+      document.getElementById(`${i}_id`).checked = true;
       setArr([...arr, e]);
     } else {
       setAllchek(false);
-      document.getElementById(`${i}_id`).checked = false
+      document.getElementById(`${i}_id`).checked = false;
       const newArr = arr.filter(
         (ele) => ele?.transection_id !== e?.transection_id
       );
@@ -105,8 +119,6 @@ export const RequestWithdraw = () => {
   };
 
   console.log(arr);
-
-
 
   return (
     <>
@@ -167,7 +179,10 @@ export const RequestWithdraw = () => {
                   <th scope="col">
                     {" "}
                     <div className="form-check">
-                      <label className="form-check-label" for="flexCheckDefault">
+                      <label
+                        className="form-check-label"
+                        for="flexCheckDefault"
+                      >
                         All
                       </label>
                       <input
@@ -179,20 +194,19 @@ export const RequestWithdraw = () => {
                         onClick={(e) => {
                           if (e.target.checked) {
                             setAllchek(true);
-                            const an = document.getElementsByClassName('amit')
-                            for( let  i =0; 1< an.length; i++){
-                              an[i].checked = true
+                            const an = document.getElementsByClassName("amit");
+                            for (let i = 0; 1 < an.length; i++) {
+                              an[i].checked = true;
                             }
-                           
+
                             setArr(tab);
                           } else {
                             setAllchek(false);
-                            const an = document.getElementsByClassName('amit')
-                            for( let  i =0; 1< an.length; i++){
-                              an[i].checked = false
+                            const an = document.getElementsByClassName("amit");
+                            for (let i = 0; 1 < an.length; i++) {
+                              an[i].checked = false;
                             }
                           }
-
                         }}
                       />
                     </div>
@@ -220,19 +234,22 @@ export const RequestWithdraw = () => {
                               className="form-check-input amit"
                               type="checkbox"
                               value=""
-                              onChange={(e)=>{
-                                if(e.target.checked){
-                                  document.getElementById(`${i}_id`).checked = true
+                              onChange={(e) => {
+                                if (e.target.checked) {
+                                  document.getElementById(
+                                    `${i}_id`
+                                  ).checked = true;
                                 }
-                                if(allcheck){
-                                  document.getElementById(`${i}_id`).checked = true
+                                if (allcheck) {
+                                  document.getElementById(
+                                    `${i}_id`
+                                  ).checked = true;
                                 }
-                              } }
+                              }}
                               // checked={allcheck ? true : !allcheck ? true: true}
                               id={`${i}_id`}
                               onClick={(e) => {
-                                
-                                getValue(element, e.target.checked,i);
+                                getValue(element, e.target.checked, i);
                               }}
                             />
                           </div>
@@ -240,7 +257,9 @@ export const RequestWithdraw = () => {
                         <td>{i + 1}</td>
 
                         <td className="td-min-with">{element?.amount} USDT</td>
-                        <td className="td-min-with">{element?.withdrawal_fee} USDT</td>
+                        <td className="td-min-with">
+                          {element?.withdrawal_fee} USDT
+                        </td>
                         <td className="td-min-with">
                           {element?.type === "roi" ? "ROI" : "Referral "}
                         </td>
