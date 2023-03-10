@@ -89,25 +89,22 @@ export const RequestWithdraw = () => {
     });
   }, [user_id]);
 
-  const getValue = (e, event) => {
+  const getValue = (e, event,i) => {
     console.log(e, event);
     if (event) {
-      setTick(true);
-
+      document.getElementById(`${i}_id`).checked = true
       setArr([...arr, e]);
     } else {
       setAllchek(false);
-
-      setTick(false);
+      document.getElementById(`${i}_id`).checked = false
       const newArr = arr.filter(
         (ele) => ele?.transection_id !== e?.transection_id
       );
       setArr(newArr);
-     
-      
-     
     }
   };
+
+  console.log(arr);
 
 
 
@@ -169,12 +166,12 @@ export const RequestWithdraw = () => {
                 >
                   <th scope="col">
                     {" "}
-                    <div class="form-check">
-                      <label class="form-check-label" for="flexCheckDefault">
+                    <div className="form-check">
+                      <label className="form-check-label" for="flexCheckDefault">
                         All
                       </label>
                       <input
-                        class="form-check-input"
+                        className="form-check-input"
                         type="checkbox"
                         value=""
                         checked={allcheck ? true : false}
@@ -182,11 +179,20 @@ export const RequestWithdraw = () => {
                         onClick={(e) => {
                           if (e.target.checked) {
                             setAllchek(true);
+                            const an = document.getElementsByClassName('amit')
+                            for( let  i =0; 1< an.length; i++){
+                              an[i].checked = true
+                            }
+                           
+                            setArr(tab);
                           } else {
                             setAllchek(false);
+                            const an = document.getElementsByClassName('amit')
+                            for( let  i =0; 1< an.length; i++){
+                              an[i].checked = false
+                            }
                           }
 
-                          setArr(tab);
                         }}
                       />
                     </div>
@@ -209,15 +215,24 @@ export const RequestWithdraw = () => {
                     return (
                       <tr>
                         <td>
-                          <div class="form-check">
+                          <div className="form-check">
                             <input
-                              class="form-check-input"
+                              className="form-check-input amit"
                               type="checkbox"
                               value=""
-                              checked={allcheck || tick ? true : false}
-                              id="flexCheckDefault"
+                              onChange={(e)=>{
+                                if(e.target.checked){
+                                  document.getElementById(`${i}_id`).checked = true
+                                }
+                                if(allcheck){
+                                  document.getElementById(`${i}_id`).checked = true
+                                }
+                              } }
+                              // checked={allcheck ? true : !allcheck ? true: true}
+                              id={`${i}_id`}
                               onClick={(e) => {
-                                getValue(element, e.target.checked);
+                                
+                                getValue(element, e.target.checked,i);
                               }}
                             />
                           </div>
@@ -225,8 +240,8 @@ export const RequestWithdraw = () => {
                         <td>{i + 1}</td>
 
                         <td className="td-min-with">{element?.amount} USDT</td>
-                        <td className="">{element?.withdrawal_fee} USDT</td>
-                        <td className="">
+                        <td className="td-min-with">{element?.withdrawal_fee} USDT</td>
+                        <td className="td-min-with">
                           {element?.type === "roi" ? "ROI" : "Referral "}
                         </td>
                         <td className="td-min-with">
