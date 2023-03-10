@@ -41,7 +41,8 @@ export const RequestWithdraw = () => {
           usdtamount.push(withdrawAmount * 1000000);
           total_usdt += withdrawAmount;
         });
-      setTotalAmount(usdtamount);
+      // setTotalAmount(usdtamount);
+      setTotalAmount(total_usdt);
       console.log(wallets, usdtamount, total_usdt);
 
       if (
@@ -94,26 +95,32 @@ export const RequestWithdraw = () => {
   let ttamount = 0;
   let ttfees = 0;
   const getValue = (e, event, i) => {
-
-    
-      arr.length > 0 &&
-      arr.map((e, i) => {
-        let withdrawAmount = e?.amount - e?.withdrawal_fee;
-        ttamount += withdrawAmount;
-        (ttfees += e?.withdrawal_fee);
-      });
-    
-    
-    console.log(e, event, ttamount, "hh", ttfees);
     if (event) {
+      
       document.getElementById(`${i}_id`).checked = true;
       setArr([...arr, e]);
+      [...arr, e].length > 0 &&
+        [...arr, e].map((e, i) => {
+          let withdrawAmount = e?.amount - e?.withdrawal_fee;
+          ttamount += withdrawAmount;
+          ttfees += e?.withdrawal_fee;
+        });
+      setTotalFees(ttfees);
+      setTotalAmount(ttamount);
     } else {
       setAllchek(false);
       document.getElementById(`${i}_id`).checked = false;
       const newArr = arr.filter(
         (ele) => ele?.transection_id !== e?.transection_id
       );
+      newArr.length > 0 &&
+        newArr.map((e, i) => {
+          let withdrawAmount = e?.amount - e?.withdrawal_fee;
+          ttamount += withdrawAmount;
+          ttfees += e?.withdrawal_fee;
+        });
+      setTotalFees(ttfees);
+      setTotalAmount(ttamount);
       setArr(newArr);
     }
   };
@@ -132,14 +139,14 @@ export const RequestWithdraw = () => {
                 <div className="stat-card-dot-p"></div>{" "}
                 <p className="ms-1"> Total Withdraw Amount</p>
               </span>
-              <b className="h3">111 USDT</b>
+              <b className="h3">{totalAmount}USDT</b>
             </div>
             <div className="col-md-4 col-12 text-center card-mob">
               <span className="d-flex align-items-center justify-content-center">
                 <div className="stat-card-dot-p"></div>{" "}
                 <p className="ms-1"> Total Withdraw Fee</p>
               </span>
-              <b className="h3">111 USDT</b>
+              <b className="h3">{totalFees} USDT</b>
             </div>
             <div className="col-md-4 col-12 text-center card-mob">
               <button
@@ -193,26 +200,40 @@ export const RequestWithdraw = () => {
                         id="flexCheckDefault"
                         onClick={(e) => {
                           if (e.target.checked) {
+                            setArr(tab);
                             setAllchek(true);
                             const an = document.getElementsByClassName("amit");
                             for (let i = 0; 1 < an.length; i++) {
                               an[i].checked = true;
                             }
-
-                            setArr(tab);
+                           
+                            let a = 0;
+                            let b = 0;
+                            tab.length > 0 &&
+                              tab.map((e, i) => {
+                                let withdrawAmount =
+                                  e?.amount - e?.withdrawal_fee;
+                               a += withdrawAmount;
+                                b += e?.withdrawal_fee;
+                              });
+                              setTotalAmount(a)
+                              setTotalFees(b)
+                              console.log(a,b);
                           } else {
+                            setTotalAmount(0)
+                            setTotalFees(0)
                             setAllchek(false);
                             const an = document.getElementsByClassName("amit");
                             for (let i = 0; 1 < an.length; i++) {
                               an[i].checked = false;
                             }
+                           
                           }
                         }}
                       />
                     </div>
                   </th>
                   <th scope="col">No</th>
-
                   <th scope="col">Amount</th>
                   <th scope="col">Fees</th>
                   <th scope="col">Withdraw Type</th>
