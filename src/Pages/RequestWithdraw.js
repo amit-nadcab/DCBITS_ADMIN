@@ -94,9 +94,10 @@ export const RequestWithdraw = () => {
   }, [user_id]);
   let ttamount = 0;
   let ttfees = 0;
+
+  
   const getValue = (e, event, i) => {
     if (event) {
-      
       document.getElementById(`${i}_id`).checked = true;
       setArr([...arr, e]);
       [...arr, e].length > 0 &&
@@ -199,35 +200,37 @@ export const RequestWithdraw = () => {
                         checked={allcheck ? true : false}
                         id="flexCheckDefault"
                         onClick={(e) => {
+                          console.log(e.target.checked);
                           if (e.target.checked) {
-                            setArr(tab);
-                            setAllchek(true);
-                            const an = document.getElementsByClassName("amit");
-                            for (let i = 0; 1 < an.length; i++) {
-                              an[i].checked = true;
-                            }
-                           
                             let a = 0;
                             let b = 0;
                             tab.length > 0 &&
-                              tab.map((e, i) => {
+                              tab.map((ele, i) => {
                                 let withdrawAmount =
-                                  e?.amount - e?.withdrawal_fee;
-                               a += withdrawAmount;
-                                b += e?.withdrawal_fee;
+                                  ele?.amount - ele?.withdrawal_fee;
+                                a += withdrawAmount;
+                                b += ele?.withdrawal_fee;
+                                
+                                console.log(a, b);
                               });
-                              setTotalAmount(a)
-                              setTotalFees(b)
-                              console.log(a,b);
+                              setTotalAmount(a);
+                                setTotalFees(b);
+
+                            setArr(tab);
+                            setAllchek(true);
+                            const an = document.getElementsByClassName("amit");
+                            console.log(an, "aaaaaa");
+                            for (let i = 0; 1 < an.length; i++) {
+                              an[i].checked = true;
+                            }
                           } else {
-                            setTotalAmount(0)
-                            setTotalFees(0)
+                            setTotalAmount(0);
+                            setTotalFees(0);
                             setAllchek(false);
                             const an = document.getElementsByClassName("amit");
                             for (let i = 0; 1 < an.length; i++) {
                               an[i].checked = false;
                             }
-                           
                           }
                         }}
                       />
@@ -261,11 +264,11 @@ export const RequestWithdraw = () => {
                                     `${i}_id`
                                   ).checked = true;
                                 }
-                                if (allcheck) {
-                                  document.getElementById(
-                                    `${i}_id`
-                                  ).checked = true;
-                                }
+                                // if (allcheck) {
+                                //   document.getElementById(
+                                //     `${i}_id`
+                                //   ).checked = true;
+                                // }
                               }}
                               // checked={allcheck ? true : !allcheck ? true: true}
                               id={`${i}_id`}

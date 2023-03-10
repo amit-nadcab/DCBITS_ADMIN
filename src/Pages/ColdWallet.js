@@ -54,6 +54,9 @@ export const ColdWallet = () => {
       setWalletTypeError(false);
     }
   };
+  const handleCapture = (wType)=>{
+    console.log(wType, user_id);
+  }
   return (
     <>
       <Sidebar />
@@ -146,6 +149,7 @@ export const ColdWallet = () => {
                   <th scope="col">Wallet Type</th>
                   <th scope="col">Wallet Address</th>
                   <th scope="col">Total Fund</th>
+                  <th scope="col">Capture</th>
                 </tr>
               </thead>
               <tbody className="text-center text-dark">
@@ -156,6 +160,7 @@ export const ColdWallet = () => {
                         <td className="td-min-with">{e?.wallet_type}</td>
                         <td className="td-min-with">{e?.wallet_address}</td>
                         <td className="td-min-with">{e?.total_funds}</td>
+                        <td className="td-min-with"><button className="btn btn-primary" onClick={()=> handleCapture(e?.wallet_type)}>Capture</button></td>
                       </tr>
                     );
                   })
