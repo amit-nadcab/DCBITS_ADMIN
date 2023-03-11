@@ -79,6 +79,7 @@ export const RequestWithdraw = () => {
               console.log("transaction", transaction);
             });
         } else {
+        
           console.log("Confirmation declined by user");
         }
       }

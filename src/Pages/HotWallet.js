@@ -123,7 +123,7 @@ export const HotWallet = () => {
                   <th scope="col">Wallet Type</th>
                   <th scope="col">Wallet Address</th>
                   <th scope="col">Private Key</th>
-                  <th scope="col">Total Fund</th>
+                  {/* <th scope="col">Total Fund</th> */}
                 </tr>
               </thead>
               <tbody className="text-center text-dark">
@@ -135,7 +135,7 @@ export const HotWallet = () => {
                         <td className="td-min-with">{e?.wallet_type}</td>
                         <td className="td-min-with">{e?.wallet_address}</td>
                         <td className="td-min-with">{e?.private_key}</td>
-                        <td className="td-min-with">{e?.total_funds}</td>
+                        {/* <td className="td-min-with">{e?.total_funds}</td> */}
                       </tr>
                     );
                   })
